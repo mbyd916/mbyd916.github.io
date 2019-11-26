@@ -119,7 +119,7 @@ params:
     gitalk: # gitalk. https://gitalk.github.io/
       owner: mbyd916 
       admin: mbyd916 
-      repo: try_blackbox 
+      repo: blog-hg 
       ClientID: 85164e618c7cc6dc000d 
       ClientSecret: 9c30affd9ff9e3744807f89cb5ace1363d6c2757 
     valine: # Valine. https://valine.js.org
