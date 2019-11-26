@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.marvel6.cn/categories/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/tags/github%E5%88%A0%E5%BA%93/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/posts/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/tags/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/2019/11/delete-my-github-repos-in-bulk/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/categories/%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/</loc>
+    <lastmod>2019-11-25T18:22:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/tags/channel/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/categories/golang/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/tags/goroutine/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/2019/02/learning-go-concurrency-through-illustrations/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/categories/%E5%B9%B6%E5%8F%91/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/categories/%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2019-02-15T17:02:18+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.marvel6.cn/series/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+</urlset>
