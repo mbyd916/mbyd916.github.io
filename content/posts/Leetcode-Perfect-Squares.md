@@ -1,7 +1,7 @@
 ---
 title: "Leetcode 题解：完全平方数"
 date: 2019-12-08T19:34:46+08:00
-draft: true
+draft: false
 categories:
 - "Leetcode 题解"
 tags:
