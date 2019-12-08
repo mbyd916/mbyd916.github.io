@@ -43,9 +43,7 @@ keywords:
 
 从 1 到 n 求每个整数 i，对应的 f(i)。对于整数 i，j 从 1 开始，j*j 不超过 i，状态转移方程：
 
-```matlab
-f(i) = min(f(i), f(i-j*j)+1)
-```
+$f(i) = \min\limits_{1\leq\ j*j\ \leq i} {f(i-j*j)+1} $
 
 ### 代码
 
