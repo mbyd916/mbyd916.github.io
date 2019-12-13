@@ -1,4 +1,8 @@
 <!-- Analytics -->
-{{- if and (not .Site.IsServer) .Site.GoogleAnalytics -}}
-  {{ template "_internal/google_analytics_async.html" . }}
+{{- if not .Site.IsServer -}}
+  {{- if $.Site.Params.mobileTencentAnalytics -}}
+    {{ partial "_script/mta.html" .}}
+  {{- else if .Site.GoogleAnalytics -}}
+    {{ template "_internal/google_analytics_async.html" . }}
+  {{- end -}}
 {{- end -}}
