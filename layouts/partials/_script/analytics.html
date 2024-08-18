@@ -1,8 +1,6 @@
 <!-- Analytics -->
-{{- if not .Site.IsServer -}}
+{{- if not hugo.IsServer -}}
   {{- if $.Site.Params.mobileTencentAnalytics -}}
     {{ partial "_script/mta.html" .}}
-  {{- else if .Site.GoogleAnalytics -}}
-    {{ template "_internal/google_analytics_async.html" . }}
   {{- end -}}
 {{- end -}}
