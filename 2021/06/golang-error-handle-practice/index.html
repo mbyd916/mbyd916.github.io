@@ -1,25 +1,33 @@
-<!doctype html><html lang=zh><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Golang 错误处理实践 - 漫步云端</title><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui"><meta name=renderer content="webkit"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=format-detection content="telephone=no,email=no,adress=no"><meta name=theme-color content="#000000"><meta http-equiv=window-target content="_top"><meta name=keywords content="Golang 错误处理"><meta name=description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，"><meta name=generator content="Hugo 0.79.1 with theme pure"><title>Golang 错误处理实践 - 漫步云端</title><link rel=stylesheet href=https://blog.marvel6.cn/css/style.css><link rel=stylesheet href=https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><meta property="og:title" content="Golang 错误处理实践"><meta property="og:description" content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.marvel6.cn/2021/06/golang-error-handle-practice/"><meta property="article:published_time" content="2021-06-05T21:19:16+08:00"><meta property="article:modified_time" content="2021-06-05T21:19:16+08:00"><meta itemprop=name content="Golang 错误处理实践"><meta itemprop=description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，"><meta itemprop=datePublished content="2021-06-05T21:19:16+08:00"><meta itemprop=dateModified content="2021-06-05T21:19:16+08:00"><meta itemprop=wordCount content="3095"><meta itemprop=keywords content="错误处理,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Golang 错误处理实践"><meta name=twitter:description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head></head><body class=main-center itemscope itemtype=http://schema.org/WebPage><header class=header itemscope itemtype=http://schema.org/WPHeader><div class=slimContent><div class=navbar-header><div class="profile-block text-center"><a id=avatar href=https://github.com/mbyd916 target=_blank><img class="img-circle img-rotate" src=https://blog.marvel6.cn/avatar.png width=200 height=200></a><h2 id=name class="hidden-xs hidden-sm">marvel6</h2><h3 id=title class="hidden-xs hidden-sm hidden-md">泥瓦工</h3><small id=location class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>中国北京</small></div><div class=search id=search-form-wrap><form class="search-form sidebar-form"><div class=input-group><input type=text class="search-form-input form-control" placeholder=搜索>
-<span class=input-group-btn><button type=submit class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button></span></div><div class=ins-search><div class=ins-search-mask></div><div class=ins-search-container><div class=ins-input-wrapper><input type=text class=ins-search-input placeholder=想要查找什么... x-webkit-speech>
+<!doctype html><html lang=zh><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Golang 错误处理实践 - 漫步云端</title><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui"><meta name=renderer content="webkit"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=format-detection content="telephone=no,email=no,adress=no"><meta name=theme-color content="#000000"><meta http-equiv=window-target content="_top"><meta name=keywords content="Golang 错误处理"><meta name=description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。
+"><meta name=generator content="Hugo 0.134.1 with theme pure"><title>Golang 错误处理实践 - 漫步云端</title>
+<link rel=stylesheet href=https://blog.marvel6.cn/css/style.css><link rel=stylesheet href=https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><meta property="og:url" content="https://blog.marvel6.cn/2021/06/golang-error-handle-practice/"><meta property="og:site_name" content="漫步云端"><meta property="og:title" content="Golang 错误处理实践"><meta property="og:description" content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-06-05T21:19:16+08:00"><meta property="article:modified_time" content="2021-06-05T21:19:16+08:00"><meta property="article:tag" content="错误处理"><meta itemprop=name content="Golang 错误处理实践"><meta itemprop=description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。"><meta itemprop=datePublished content="2021-06-05T21:19:16+08:00"><meta itemprop=dateModified content="2021-06-05T21:19:16+08:00"><meta itemprop=wordCount content="3095"><meta itemprop=keywords content="Golang 错误处理"><meta name=twitter:card content="summary"><meta name=twitter:title content="Golang 错误处理实践"><meta name=twitter:description content="任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head></head><body class=main-center itemscope itemtype=http://schema.org/WebPage><header class=header itemscope itemtype=http://schema.org/WPHeader><div class=slimContent><div class=navbar-header><div class="profile-block text-center"><a id=avatar href=https://github.com/mbyd916 target=_blank><img class="img-circle img-rotate" src=https://blog.marvel6.cn/avatar.png width=200 height=200></a><h2 id=name class="hidden-xs hidden-sm">marvel6</h2><h3 id=title class="hidden-xs hidden-sm hidden-md">泥瓦工</h3><small id=location class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>中国北京</small></div><div class=search id=search-form-wrap><form class="search-form sidebar-form"><div class=input-group><input type=text class="search-form-input form-control" placeholder=搜索>
+<span class=input-group-btn><button type=submit class="search-form-submit btn btn-flat" onclick=return!1><i class="icon icon-search"></i></button></span></div><div class=ins-search><div class=ins-search-mask></div><div class=ins-search-container><div class=ins-input-wrapper><input type=text class=ins-search-input placeholder=想要查找什么... x-webkit-speech>
 <button type=button class="close ins-close ins-selectable" data-dismiss=modal aria-label=Close><span aria-hidden=true>×</span></button></div><div class=ins-section-wrapper><div class=ins-section-container></div></div></div></div></form></div><button class="navbar-toggle collapsed" type=button data-toggle=collapse data-target=#main-navbar aria-controls=main-navbar aria-expanded=false>
 <span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button></div><nav id=main-navbar class="collapse navbar-collapse" itemscope itemtype=http://schema.org/SiteNavigationElement role=navigation><ul class="nav navbar-nav main-nav"><li class="menu-item menu-item-home"><a href=/><i class="icon icon-home-fill"></i><span class=menu-title>Home</span></a></li><li class="menu-item menu-item-archives"><a href=/posts><i class="icon icon-archives-fill"></i><span class=menu-title>Archives</span></a></li><li class="menu-item menu-item-categories"><a href=/categories><i class="icon icon-folder"></i><span class=menu-title>Categories</span></a></li><li class="menu-item menu-item-tags"><a href=/tags><i class="icon icon-tags"></i><span class=menu-title>Tags</span></a></li></ul></nav></div></header><aside class=sidebar itemscope itemtype=http://schema.org/WPSideBar><div class=slimContent><div class=widget><h3 class=widget-title>公告</h3><div class=widget-body><div id=board><div class=content><p>多写博客，勤总结.</p></div></div></div></div><div class=widget><h3 class=widget-title>分类</h3><div class=widget-body><ul class=category-list><li class=category-list-item><a href=https://blog.marvel6.cn/categories/github/ class=category-list-link>github</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/golang/ class=category-list-link>golang</a><span class=category-list-count>5</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/ class=category-list-link>leetcode-题解</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/ class=category-list-link>单元测试</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6/ class=category-list-link>基础组件</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%A4%87%E5%BF%98/ class=category-list-link>备忘</a><span class=category-list-count>2</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%B9%B6%E5%8F%91/ class=category-list-link>并发</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E6%8A%80%E5%B7%A7/ class=category-list-link>技巧</a><span class=category-list-count>2</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E7%AC%94%E8%AE%B0/ class=category-list-link>笔记</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E7%BF%BB%E8%AF%91/ class=category-list-link>翻译</a><span class=category-list-count>2</span></li></ul></div></div><div class=widget><h3 class=widget-title>标签</h3><div class=widget-body><ul class=tag-list><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/channel/ class=tag-list-link>channel</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/github-pages/ class=tag-list-link>github-pages</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/github%E5%88%A0%E5%BA%93/ class=tag-list-link>github删库</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/goconvey/ class=tag-list-link>goconvey</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/goroutine/ class=tag-list-link>goroutine</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/gotool/ class=tag-list-link>gotool</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/hugo/ class=tag-list-link>hugo</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/hystrix-%E9%85%8D%E7%BD%AE/ class=tag-list-link>hystrix-配置</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/lock/ class=tag-list-link>lock</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/slice/ class=tag-list-link>slice</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/sqlmock/ class=tag-list-link>sqlmock</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/xorm/ class=tag-list-link>xorm</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/ class=tag-list-link>动态规划</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/ class=tag-list-link>小工具</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E6%95%B0%E5%AD%A6/ class=tag-list-link>数学</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/ class=tag-list-link>熔断降级</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ class=tag-list-link>错误处理</a><span class=tag-list-count>1</span></li></ul></div></div><div class=widget><h3 class=widget-title>最新文章</h3><div class=widget-body><ul class="recent-post-list list-unstyled no-thumbnail"><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ class=title>Golang 错误处理实践</a></p><p class=item-date><time datetime="2021-06-05 21:19:16 +0800 +0800" itemprop=datePublished>2021-06-05</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/ class=title>借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock</a></p><p class=item-date><time datetime="2020-01-23 15:28:33 +0800 +0800" itemprop=datePublished>2020-01-23</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/ class=title>详解 hystrix-go Command 配置参数</a></p><p class=item-date><time datetime="2019-12-30 21:16:54 +0800 +0800" itemprop=datePublished>2019-12-30</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/leetcode-perfect-squares/ class=title>Leetcode 题解：完全平方数</a></p><p class=item-date><time datetime="2019-12-08 19:34:46 +0800 +0800" itemprop=datePublished>2019-12-08</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/hosting-hugo-blog-on-github-pages/ class=title>在 GitHub Pages 托管用 Hugo 创建的静态博客</a></p><p class=item-date><time datetime="2019-12-01 11:51:45 +0800 +0800" itemprop=datePublished>2019-12-01</time></p></div></li></ul></div></div></div></aside><aside class="sidebar sidebar-toc collapse" id=collapseToc itemscope itemtype=http://schema.org/WPSideBar><div class=slimContent><nav id=toc class=article-toc><h3 class=toc-title>文章目录</h3><div class="toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#1-常用包>1. 常用包</a></li><li><a href=#2-更优雅地处理错误>2. 更优雅地处理错误</a></li><li><a href=#3-仅在最上层调用打日志>3. 仅在最上层调用打日志</a></li><li><a href=#4-通过-panic-和-recover-进行错误处理>4. 通过 panic 和 recover 进行错误处理</a></li><li><a href=#5-并发场景下的错误处理>5. 并发场景下的错误处理</a></li><li><a href=#6-一些规范>6. 一些规范</a></li><li><a href=#7-特别注意的坑>7. 特别注意的坑</a></li></ul></li></ul></nav></div></nav></div></aside><main class=main role=main><div class=content><article id=- class="article article-type-" itemscope itemtype=http://schema.org/BlogPosting><div class=article-header><h1 itemprop=name><a class=article-title href=/2021/06/golang-error-handle-practice/>Golang 错误处理实践</a></h1><div class=article-meta><span class=article-date><i class="icon icon-calendar-check"></i><a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ class=article-date><time datetime="2021-06-05 21:19:16 +0800 +0800" itemprop=datePublished>2021-06-05</time></a>
-</span><span class=article-category><i class="icon icon-folder"></i><a class=article-category-link href=/categories/%E6%8A%80%E5%B7%A7/>技巧</a>
-<a class=article-category-link href=/categories/golang/>Golang</a></span>
-<span class=article-tag><i class="icon icon-tags"></i><a class=article-tag-link href=/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/>错误处理</a></span>
-<span class=post-comment><i class="icon icon-comment"></i><a href=/2021/06/golang-error-handle-practice/#comments class=article-comment-link>评论</a></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button></div><nav id=main-navbar class="collapse navbar-collapse" itemscope itemtype=http://schema.org/SiteNavigationElement role=navigation><ul class="nav navbar-nav main-nav"><li class="menu-item menu-item-home"><a href=/><i class="icon icon-home-fill"></i>
+<span class=menu-title>Home</span></a></li><li class="menu-item menu-item-archives"><a href=/posts><i class="icon icon-archives-fill"></i>
+<span class=menu-title>Archives</span></a></li><li class="menu-item menu-item-categories"><a href=/categories><i class="icon icon-folder"></i>
+<span class=menu-title>Categories</span></a></li><li class="menu-item menu-item-tags"><a href=/tags><i class="icon icon-tags"></i>
+<span class=menu-title>Tags</span></a></li></ul></nav></div></header><aside class=sidebar itemscope itemtype=http://schema.org/WPSideBar><div class=slimContent><div class=widget><h3 class=widget-title>公告</h3><div class=widget-body><div id=board><div class=content><p>多写博客，勤总结.</p></div></div></div></div><div class=widget><h3 class=widget-title>分类</h3><div class=widget-body><ul class=category-list><li class=category-list-item><a href=https://blog.marvel6.cn/categories/github/ class=category-list-link>github</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/golang/ class=category-list-link>golang</a><span class=category-list-count>5</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/ class=category-list-link>leetcode 题解</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/ class=category-list-link>单元测试</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6/ class=category-list-link>基础组件</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%A4%87%E5%BF%98/ class=category-list-link>备忘</a><span class=category-list-count>2</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E5%B9%B6%E5%8F%91/ class=category-list-link>并发</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E6%8A%80%E5%B7%A7/ class=category-list-link>技巧</a><span class=category-list-count>2</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E7%AC%94%E8%AE%B0/ class=category-list-link>笔记</a><span class=category-list-count>1</span></li><li class=category-list-item><a href=https://blog.marvel6.cn/categories/%E7%BF%BB%E8%AF%91/ class=category-list-link>翻译</a><span class=category-list-count>2</span></li></ul></div></div><div class=widget><h3 class=widget-title>标签</h3><div class=widget-body><ul class=tag-list><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/channel/ class=tag-list-link>channel</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/github-pages/ class=tag-list-link>github pages</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/github%E5%88%A0%E5%BA%93/ class=tag-list-link>github删库</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/goconvey/ class=tag-list-link>goconvey</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/goroutine/ class=tag-list-link>goroutine</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/gotool/ class=tag-list-link>gotool</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/hugo/ class=tag-list-link>hugo</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/hystrix-%E9%85%8D%E7%BD%AE/ class=tag-list-link>hystrix 配置</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/lock/ class=tag-list-link>lock</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/slice/ class=tag-list-link>slice</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/sqlmock/ class=tag-list-link>sqlmock</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/xorm/ class=tag-list-link>xorm</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/ class=tag-list-link>动态规划</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/ class=tag-list-link>小工具</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E6%95%B0%E5%AD%A6/ class=tag-list-link>数学</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/ class=tag-list-link>熔断降级</a><span class=tag-list-count>1</span></li><li class=tag-list-item><a href=https://blog.marvel6.cn/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ class=tag-list-link>错误处理</a><span class=tag-list-count>1</span></li></ul></div></div><div class=widget><h3 class=widget-title>最新文章</h3><div class=widget-body><ul class="recent-post-list list-unstyled no-thumbnail"><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ class=title>Golang 错误处理实践</a></p><p class=item-date><time datetime="2021-06-05 21:19:16 +0800 +0800" itemprop=datePublished>2021-06-05</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/ class=title>借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock</a></p><p class=item-date><time datetime="2020-01-23 15:28:33 +0800 +0800" itemprop=datePublished>2020-01-23</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/ class=title>详解 hystrix-go Command 配置参数</a></p><p class=item-date><time datetime="2019-12-30 21:16:54 +0800 +0800" itemprop=datePublished>2019-12-30</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/leetcode-perfect-squares/ class=title>Leetcode 题解：完全平方数</a></p><p class=item-date><time datetime="2019-12-08 19:34:46 +0800 +0800" itemprop=datePublished>2019-12-08</time></p></div></li><li><div class=item-inner><p class=item-title><a href=https://blog.marvel6.cn/2019/12/hosting-hugo-blog-on-github-pages/ class=title>在 GitHub Pages 托管用 Hugo 创建的静态博客</a></p><p class=item-date><time datetime="2019-12-01 11:51:45 +0800 +0800" itemprop=datePublished>2019-12-01</time></p></div></li></ul></div></div></div></aside><aside class="sidebar sidebar-toc collapse" id=collapseToc itemscope itemtype=http://schema.org/WPSideBar><div class=slimContent><nav id=toc class=article-toc><h3 class=toc-title>文章目录</h3><div class="toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#1-常用包>1. 常用包</a></li><li><a href=#2-更优雅地处理错误>2. 更优雅地处理错误</a></li><li><a href=#3-仅在最上层调用打日志>3. 仅在最上层调用打日志</a></li><li><a href=#4-通过-panic-和-recover-进行错误处理>4. 通过 panic 和 recover 进行错误处理</a></li><li><a href=#5-并发场景下的错误处理>5. 并发场景下的错误处理</a></li><li><a href=#6-一些规范>6. 一些规范</a></li><li><a href=#7-特别注意的坑>7. 特别注意的坑</a></li></ul></li></ul></nav></div></nav></div></aside><main class=main role=main><div class=content><article id=- class="article article-type-" itemscope itemtype=http://schema.org/BlogPosting><div class=article-header><h1 itemprop=name><a class=article-title href=/2021/06/golang-error-handle-practice/>Golang 错误处理实践</a></h1><div class=article-meta><span class=article-date><i class="icon icon-calendar-check"></i>
+<a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ class=article-date><time datetime="2021-06-05 21:19:16 +0800 +0800" itemprop=datePublished>2021-06-05</time>
+</a></span><span class=article-category><i class="icon icon-folder"></i>
+<a class=article-category-link href=/categories/%E6%8A%80%E5%B7%A7/>技巧 </a><a class=article-category-link href=/categories/golang/>Golang </a></span><span class=article-tag><i class="icon icon-tags"></i>
+<a class=article-tag-link href=/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/>错误处理 </a></span><span class=post-comment><i class="icon icon-comment"></i> <a href=/2021/06/golang-error-handle-practice/#comments class=article-comment-link>评论</a></span>
 <span class="post-wordcount hidden-xs" itemprop=wordCount>字数统计:3095字</span>
-<span class="post-readcount hidden-xs" itemprop=timeRequired>阅读时长:7分</span></div></div><div class="article-entry marked-body" itemprop=articleBody><p>任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。</p><h1 id=问题>问题</h1><p>Go 代码中常见的错误处理片段，被不少人诟病，可能处理业务逻辑的核心代码没几行，类似语句却写了一大堆 :-(</p><pre><code>if err != nil {
+<span class="post-readcount hidden-xs" itemprop=timeRequired>阅读时长:7分</span></div></div><div class="article-entry marked-body" itemprop=articleBody><p>任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。</p><h1 id=问题>问题</h1><p>Go 代码中常见的错误处理片段，被不少人诟病，可能处理业务逻辑的核心代码没几行，类似语句却写了一大堆 :-(</p><pre tabindex=0><code>if err != nil {
     return err
 }
-</code></pre><p>或者（当然，还有这样的，仅抛给上层调用方哪儿够，得自己也打印一份日志 :-) ）</p><pre><code>if err != nil {
-    logs.CtxError(ctx, &quot;failed to xxx: %s&quot;, err)
+</code></pre><p>或者（当然，还有这样的，仅抛给上层调用方哪儿够，得自己也打印一份日志 :-) ）</p><pre tabindex=0><code>if err != nil {
+    logs.CtxError(ctx, &#34;failed to xxx: %s&#34;, err)
     return err
 }
 </code></pre><p>错误处理是很重要的，Go 语言鼓励开发人员当可能发生错误时，去明确地检查错误，这可能使得代码很冗长，不过本文介绍的一些方法可以简化重复的错误处理工作。</p><p>（吐槽时间）
-(balabalabala&mldr;)</p><p>总结一下：</p><ol><li>缺少错误上下文和堆栈信息；</li><li>冗余，代码冗长，主逻辑割裂；</li><li>分层开发，日志泛滥；</li></ol><h1 id=是什么>是什么</h1><p>接下来先了解一下 Go 的 <code>error</code> 类型，然后我们再想办法逐一解决上述问题。Go 社区流行很多“谚语”，其中有一句和“错误”有关的，来自 Go 语言合作者 Rob Pike 大神。</p><blockquote><p><em>Errors are values.</em></p><p>by <a href=https://en.wikipedia.org/wiki/Rob_Pike>Rob Pike</a></p></blockquote><p><code>error</code> 是内置类型，定义为一个 <code>interface</code>。</p><pre><code>type error interface {
+(balabalabala&mldr;)</p><p>总结一下：</p><ol><li>缺少错误上下文和堆栈信息；</li><li>冗余，代码冗长，主逻辑割裂；</li><li>分层开发，日志泛滥；</li></ol><h1 id=是什么>是什么</h1><p>接下来先了解一下 Go 的 <code>error</code> 类型，然后我们再想办法逐一解决上述问题。Go 社区流行很多“谚语”，其中有一句和“错误”有关的，来自 Go 语言合作者 Rob Pike 大神。</p><blockquote><p><em>Errors are values.</em></p><p>by <a href=https://en.wikipedia.org/wiki/Rob_Pike>Rob Pike</a></p></blockquote><p><code>error</code> 是内置类型，定义为一个 <code>interface</code>。</p><pre tabindex=0><code>type error interface {
     Error() string
 }
-</code></pre><p>标准库 <code>errors</code> 包提供了一个默认错误类型 <code>errorString</code>，借助一个字符串字段保存错误信息，开发者可以通过 <code>errors.New("xyz")</code> 创建一个“标准”错误。</p><pre><code>// New returns an error that formats as the given text.
+</code></pre><p>标准库 <code>errors</code> 包提供了一个默认错误类型 <code>errorString</code>，借助一个字符串字段保存错误信息，开发者可以通过 <code>errors.New("xyz")</code> 创建一个“标准”错误。</p><pre tabindex=0><code>// New returns an error that formats as the given text.
 // Each call to New returns a distinct error value even if the text is identical.
 func New(text string) error {
         return &amp;errorString{text}
@@ -33,19 +41,19 @@ type errorString struct {
 func (e *errorString) Error() string {
         return e.s
 }
-</code></pre><p>此外，<code>fmt</code> 包还提供了一个函数 <code>Errorf</code>，用来创建格式化“错误”，允许开发人员添加一些上下文信息，这种方法更常用。</p><p>当然，开发者也可以自定义错误类型，通过实现 <code>error</code> 接口，为程序“错误”提供更详细的<strong>上下文信息，</strong> 如标准库的 <code>PathError</code>：</p><pre><code>// PathError records an error and the operation and
+</code></pre><p>此外，<code>fmt</code> 包还提供了一个函数 <code>Errorf</code>，用来创建格式化“错误”，允许开发人员添加一些上下文信息，这种方法更常用。</p><p>当然，开发者也可以自定义错误类型，通过实现 <code>error</code> 接口，为程序“错误”提供更详细的<strong>上下文信息，</strong> 如标准库的 <code>PathError</code>：</p><pre tabindex=0><code>// PathError records an error and the operation and
 // file path that caused it.
 type PathError struct {
-    Op string    // &quot;open&quot;, &quot;unlink&quot;, etc.
+    Op string    // &#34;open&#34;, &#34;unlink&#34;, etc.
     Path string  // The associated file.
     Err error    // Returned by the system call.
 }
 
 func (e *PathError) Error() string {
-    return e.Op + &quot; &quot; + e.Path + &quot;: &quot; + e.Err.Error()
+    return e.Op + &#34; &#34; + e.Path + &#34;: &#34; + e.Err.Error()
 }
-</code></pre><p>调用出错（如打开一个不存在的文件）时，可能看到的提示：</p><pre><code>open /not_exists: no such file or directory
-</code></pre><p>此外，还可以通过类型断言获取具体错误类型，进行检查并处理。</p><pre><code>for try := 0; try &lt; 2; try++ {
+</code></pre><p>调用出错（如打开一个不存在的文件）时，可能看到的提示：</p><pre tabindex=0><code>open /not_exists: no such file or directory
+</code></pre><p>此外，还可以通过类型断言获取具体错误类型，进行检查并处理。</p><pre tabindex=0><code>for try := 0; try &lt; 2; try++ {
     file, err = os.Create(filename)
     if err == nil {
         return
@@ -58,7 +66,7 @@ func (e *PathError) Error() string {
 
     return
 }
-</code></pre><h1 id=为什么>为什么</h1><p>我们再来简单看下 Go 语言的前辈们是如何处理错误的？一般有两种方法：</p><ul><li>返回值检查</li><li>异常机制</li></ul><p>分别以 C 和 Java 两种语言将“字符串转为整型”为例进行说明：</p><pre><code>// 当返回值=0，无法区分转换是否成功
+</code></pre><h1 id=为什么>为什么</h1><p>我们再来简单看下 Go 语言的前辈们是如何处理错误的？一般有两种方法：</p><ul><li>返回值检查</li><li>异常机制</li></ul><p>分别以 C 和 Java 两种语言将“字符串转为整型”为例进行说明：</p><pre tabindex=0><code>// 当返回值=0，无法区分转换是否成功
 int atoi(const char *str);
 
 // 通过errno、返回值以及出参endptr判断
@@ -75,7 +83,7 @@ long int strtol(const char *nptr, char **endptr, int base);
     {
         if (errno == EINVAL)
         {
-            printf(&quot;Conversion error occurred: %d\n&quot;, errno);
+            printf(&#34;Conversion error occurred: %d\n&#34;, errno);
             exit(0);
         }
     }
@@ -83,18 +91,18 @@ long int strtol(const char *nptr, char **endptr, int base);
     if (result == LONG_MIN || result == LONG_MAX)
     {
         if (errno == ERANGE)
-            printf(&quot;The value provided was out of range\n&quot;);
+            printf(&#34;The value provided was out of range\n&#34;);
     }
 
     //...
-</code></pre><p>C 只能有一个返回值</p><ul><li>无法区分正常和异常返回；</li><li>引入“出参”形式，函数声明变得更复杂；</li></ul><pre><code>// 抛异常
+</code></pre><p>C 只能有一个返回值</p><ul><li>无法区分正常和异常返回；</li><li>引入“出参”形式，函数声明变得更复杂；</li></ul><pre tabindex=0><code>// 抛异常
 public static int parseInt(String s, int radix)
                     throws NumberFormatException
 
                     
 
     try {
-            int result = Integer.parseInt(&quot;123abcd&quot;, 10);
+            int result = Integer.parseInt(&#34;123abcd&#34;, 10);
             System.out.println(result);
             // other logic
         } catch (Exception e) {
@@ -103,49 +111,49 @@ public static int parseInt(String s, int radix)
         }
 
 
- // java.lang.NumberFormatException: For input string: &quot;123abcd&quot;
+ // java.lang.NumberFormatException: For input string: &#34;123abcd&#34;
  //       at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:68)
  //       at java.base/java.lang.Integer.parseInt(Integer.java:652)
  //       at Hello.main(Hello.java:6)
-</code></pre><p>Java 异常机制 try-catch-finally</p><ul><li>错误处理和返回值完全分开；</li><li>正常代码与错误处理逻辑分开，提高可读性；</li><li>“受检”异常不能被忽略，需要显示声明并处理。</li></ul><pre><code>func Atoi(s string) (int, error)
+</code></pre><p>Java 异常机制 try-catch-finally</p><ul><li>错误处理和返回值完全分开；</li><li>正常代码与错误处理逻辑分开，提高可读性；</li><li>“受检”异常不能被忽略，需要显示声明并处理。</li></ul><pre tabindex=0><code>func Atoi(s string) (int, error)
 
 func ParseInt(s string, base int, bitSize int) (i int64, err error)
 
 
 
-    result, err := strconv.ParseInt(&quot;123abcd&quot;, 10, 64)
+    result, err := strconv.ParseInt(&#34;123abcd&#34;, 10, 64)
     if err != nil {
         fmt.Println(err)
         return
     }
 
-    // strconv.ParseInt: parsing &quot;123abcd&quot;: invalid syntax
-</code></pre><p>Go 错误处理本质上也是通过<strong>检查返回值</strong>实现的，不过：</p><ul><li>Go 支持多值返回，可以将业务返回值和错误返回值区分开；</li><li>可以用 <code>_</code> 显式忽略错误；</li><li>并且定义了内置的 <code>error</code> 类型，方便开发者进行扩展；</li></ul><p>使用“异常”有不少优势，为啥 Go 不这么做呢？</p><blockquote><p>我们认为，将“异常”处理耦合到控制结构（如 try-catch-finally）会导致代码混乱。它还倾向于鼓励程序员将太多的常见错误（例如，无法打开文件）标记为“异常”的。</p><p>From <a href=https://golang.org/doc/faq#exceptions>Go 官方 FAQ</a></p></blockquote><p><a href=https://dave.cheney.net/2012/01/18/why-go-gets-exceptions-right>Why Go Gets Exceptions Right?</a></p><p>那么 Go 认为的“异常”情况是怎样的呢？</p><p>当 Go 程序出现不可恢复的运行时错误，会抛出 <code>panic</code>（直译“恐慌”），如：</p><ul><li>索引越界；</li><li>类型断言失败等；</li></ul><p><strong>注</strong>：一般不建议使用 <code>panic</code> 作为 Go 的错误处理方法。</p><p>不过初始化程序时可以使用，如程序启动依赖的必要条件不能满足时：</p><pre><code>var user = os.Getenv(&quot;USER&quot;)
+    // strconv.ParseInt: parsing &#34;123abcd&#34;: invalid syntax
+</code></pre><p>Go 错误处理本质上也是通过<strong>检查返回值</strong>实现的，不过：</p><ul><li>Go 支持多值返回，可以将业务返回值和错误返回值区分开；</li><li>可以用 <code>_</code> 显式忽略错误；</li><li>并且定义了内置的 <code>error</code> 类型，方便开发者进行扩展；</li></ul><p>使用“异常”有不少优势，为啥 Go 不这么做呢？</p><blockquote><p>我们认为，将“异常”处理耦合到控制结构（如 try-catch-finally）会导致代码混乱。它还倾向于鼓励程序员将太多的常见错误（例如，无法打开文件）标记为“异常”的。</p><p>From <a href=https://golang.org/doc/faq#exceptions>Go 官方 FAQ</a></p></blockquote><p><a href=https://dave.cheney.net/2012/01/18/why-go-gets-exceptions-right>Why Go Gets Exceptions Right?</a></p><p>那么 Go 认为的“异常”情况是怎样的呢？</p><p>当 Go 程序出现不可恢复的运行时错误，会抛出 <code>panic</code>（直译“恐慌”），如：</p><ul><li>索引越界；</li><li>类型断言失败等；</li></ul><p><strong>注</strong>：一般不建议使用 <code>panic</code> 作为 Go 的错误处理方法。</p><p>不过初始化程序时可以使用，如程序启动依赖的必要条件不能满足时：</p><pre tabindex=0><code>var user = os.Getenv(&#34;USER&#34;)
 
 func init() {
-    if user == &quot;&quot; {
-        panic(&quot;no value for $USER&quot;)
+    if user == &#34;&#34; {
+        panic(&#34;no value for $USER&#34;)
     }
 }
-</code></pre><h1 id=怎么做>怎么做</h1><p>接下来我们来看下如何解决一开始提到的问题：</p><h3 id=1-常用包>1. 常用包</h3><ul><li>Dave <a href=https://pkg.go.dev/github.com/pkg/errors>pkg/errors</a></li><li>Go 1.3 或以上标准库 <a href=https://golang.org/pkg/errors/>errors</a>和 <a href=https://pkg.go.dev/fmt#Errorf>fmt</a></li></ul><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/error_pkgs.png alt="error pkgs"></p><p>推荐第1种，能记录错误堆栈信息；</p><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/errors_wrap.png alt=errors.Wrap></p><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/errors_cause.png alt=errors.Cause></p><p>标准库 <code>errors</code> 使用举例：</p><pre><code>func main() {
-        e1 := errors.New(&quot;1st error&quot;)
-        e2 := fmt.Errorf(&quot;2nd: %w&quot;, e1)
-        e3 := fmt.Errorf(&quot;3rd: %w&quot;, e2)
-        e4 := fmt.Errorf(&quot;4th: %w&quot;, e3)
+</code></pre><h1 id=怎么做>怎么做</h1><p>接下来我们来看下如何解决一开始提到的问题：</p><h3 id=1-常用包>1. 常用包</h3><ul><li>Dave <a href=https://pkg.go.dev/github.com/pkg/errors>pkg/errors</a></li><li>Go 1.3 或以上标准库 <a href=https://golang.org/pkg/errors/>errors</a>和 <a href=https://pkg.go.dev/fmt#Errorf>fmt</a></li></ul><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/error_pkgs.png alt="error pkgs"></p><p>推荐第1种，能记录错误堆栈信息；</p><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/errors_wrap.png alt=errors.Wrap></p><p><img src=https://raw.githubusercontent.com/mbyd916/blog-hg/fd5d27fef45a761a0ef24a8032d671e9db58709b/static/images/errors_cause.png alt=errors.Cause></p><p>标准库 <code>errors</code> 使用举例：</p><pre tabindex=0><code>func main() {
+        e1 := errors.New(&#34;1st error&#34;)
+        e2 := fmt.Errorf(&#34;2nd: %w&#34;, e1)
+        e3 := fmt.Errorf(&#34;3rd: %w&#34;, e2)
+        e4 := fmt.Errorf(&#34;4th: %w&#34;, e3)
 
         fmt.Println(e1)
         fmt.Println(e2)
         fmt.Println(e3)
         fmt.Println(e4)
-        fmt.Println(&quot;====================================&quot;)
+        fmt.Println(&#34;====================================&#34;)
 
         e5 := errors.Unwrap(e4)
-        fmt.Println(&quot;e5 == e3?&quot;, e5 == e3)
-        fmt.Println(&quot;e5 Is e3?&quot;, errors.Is(e5, e3))
+        fmt.Println(&#34;e5 == e3?&#34;, e5 == e3)
+        fmt.Println(&#34;e5 Is e3?&#34;, errors.Is(e5, e3))
 
-        fmt.Println(&quot;====================================&quot;)
-        fmt.Println(&quot;e5 == e1?&quot;, e5 == e1)
-        fmt.Println(&quot;e5 Is e1?&quot;, errors.Is(e5, e1))
+        fmt.Println(&#34;====================================&#34;)
+        fmt.Println(&#34;e5 == e1?&#34;, e5 == e1)
+        fmt.Println(&#34;e5 Is e1?&#34;, errors.Is(e5, e1))
 
   
 
@@ -161,7 +169,7 @@ func init() {
 // e5 == e1? false
 // e5 Is e1? true
 }
-</code></pre><pre><code>type MyError struct {
+</code></pre><pre tabindex=0><code>type MyError struct {
         err string
 }
 
@@ -170,17 +178,17 @@ func (e *MyError) Error() string {
 }
 
 func main() {
-        e1 := &amp;MyError{&quot;1st error&quot;}
-        e2 := fmt.Errorf(&quot;2nd: %w&quot;, e1)
-        e3 := fmt.Errorf(&quot;3rd: %w&quot;, e2)
-        e4 := fmt.Errorf(&quot;4th: %w&quot;, e3)
+        e1 := &amp;MyError{&#34;1st error&#34;}
+        e2 := fmt.Errorf(&#34;2nd: %w&#34;, e1)
+        e3 := fmt.Errorf(&#34;3rd: %w&#34;, e2)
+        e4 := fmt.Errorf(&#34;4th: %w&#34;, e3)
 
         fmt.Println(e1)
         fmt.Println(e2)
         fmt.Println(e3)
         fmt.Println(e4)
         
-        fmt.Println(&quot;====================================&quot;)
+        fmt.Println(&#34;====================================&#34;)
         var err5 *MyError
         fmt.Println(errors.As(e4, &amp;err5))
         fmt.Println(err5)
@@ -195,7 +203,7 @@ func main() {
 // true
 // 1st error
 }
-</code></pre><h3 id=2-更优雅地处理错误>2. 更优雅地处理错误</h3><p>示例 1：统计文件行数</p><pre><code>func CountLines(r io.Reader) (int, error) {
+</code></pre><h3 id=2-更优雅地处理错误>2. 更优雅地处理错误</h3><p>示例 1：统计文件行数</p><pre tabindex=0><code>func CountLines(r io.Reader) (int, error) {
         var (
                 br    = bufio.NewReader(r)
                 lines int
@@ -203,7 +211,7 @@ func main() {
         )
 
         for {
-                 _, err = br.ReadString('\n')
+                 _, err = br.ReadString(&#39;\n&#39;)
                  lines++
                  if err != nil {
                      break
@@ -216,7 +224,7 @@ func main() {
 
         return lines, nil
  }
-</code></pre><p>(<strong>注</strong>：仅作错误处理说明用，以上代码存在 bug，如空文件，统计行数为 1)</p><p>我们也许可以从标准库 <code>bufio</code> 包 <a href=https://golang.org/pkg/bufio/#Scanner>Scanner</a> 类型找找灵感，<code>Scan</code> 方法并未直接返回 <code>error</code> 类型，而是返回了一个 <code>boolean</code> 类型，还提供了一个 <code>Err</code> 方法返回发生的错误。</p><pre><code>func CountLines(r io.Reader) (int, error) {
+</code></pre><p>(<strong>注</strong>：仅作错误处理说明用，以上代码存在 bug，如空文件，统计行数为 1)</p><p>我们也许可以从标准库 <code>bufio</code> 包 <a href=https://golang.org/pkg/bufio/#Scanner>Scanner</a> 类型找找灵感，<code>Scan</code> 方法并未直接返回 <code>error</code> 类型，而是返回了一个 <code>boolean</code> 类型，还提供了一个 <code>Err</code> 方法返回发生的错误。</p><pre tabindex=0><code>func CountLines(r io.Reader) (int, error) {
         sc := bufio.NewScanner(r)
         lines := 0
 
@@ -226,7 +234,7 @@ func main() {
 
         return lines, sc.Err()
 }
-</code></pre><p>将错误处理与主流程分开，提升代码可读性。</p><p>示例 2:</p><pre><code>type Header struct {
+</code></pre><p>将错误处理与主流程分开，提升代码可读性。</p><p>示例 2:</p><pre tabindex=0><code>type Header struct {
         Key, Value string
 }
 
@@ -236,19 +244,19 @@ type Status struct {
 }
 
 func WriteResponse(w io.Writer, st Status, headers []Header, body io.Reader) error {
-        _, err := fmt.Fprintf(w, &quot;HTTP/1.1 %d %s\r\n&quot;, st.Code, st.Reason)
+        _, err := fmt.Fprintf(w, &#34;HTTP/1.1 %d %s\r\n&#34;, st.Code, st.Reason)
         if err != nil {
                 return err
         }
 
         for _, h := range headers {
-                _, err := fmt.Fprintf(w, &quot;%s: %s\r\n&quot;, h.Key, h.Value)
+                _, err := fmt.Fprintf(w, &#34;%s: %s\r\n&#34;, h.Key, h.Value)
                 if err != nil {
                         return err
                 }
         }
 
-        if _, err := fmt.Fprint(w, &quot;\r\n&quot;); err != nil {
+        if _, err := fmt.Fprint(w, &#34;\r\n&#34;); err != nil {
                 return err
         } 
 
@@ -256,7 +264,7 @@ func WriteResponse(w io.Writer, st Status, headers []Header, body io.Reader) err
 
         return err
 }
-</code></pre><p>改造之后</p><pre><code>type errWriter struct {
+</code></pre><p>改造之后</p><pre tabindex=0><code>type errWriter struct {
         io.Writer
         err error
 }
@@ -273,18 +281,18 @@ func (e *errWriter) Write(buf []byte) (int, error) {
 
 func WriteResponse(w io.Writer, st Status, headers []Header, body io.Reader) error {
         ew := &amp;errWriter{Writer: w} 
-        fmt.Fprintf(ew, &quot;HTTP/1.1 %d %s\r\n&quot;, st.Code, st.Reason)
+        fmt.Fprintf(ew, &#34;HTTP/1.1 %d %s\r\n&#34;, st.Code, st.Reason)
 
         for _, h := range headers {
-               fmt.Fprintf(ew, &quot;%s: %s\r\n&quot;, h.Key, h.Value)
+               fmt.Fprintf(ew, &#34;%s: %s\r\n&#34;, h.Key, h.Value)
         }
 
-        fmt.Fprint(ew, &quot;\r\n&quot;)
+        fmt.Fprint(ew, &#34;\r\n&#34;)
         io.Copy(ew, body)
 
         return ew.err
 }
-</code></pre><p>另外大家用到的 Gorm 框架，能进行链式调用，也采用了类似的实现思路。</p><pre><code>// DB GORM DB definition
+</code></pre><p>另外大家用到的 Gorm 框架，能进行链式调用，也采用了类似的实现思路。</p><pre tabindex=0><code>// DB GORM DB definition
 type DB struct {
    *Config
    Error        error
@@ -295,12 +303,12 @@ type DB struct {
 
 lead := &amp;Lead{LockState: Unlocked}
 db.WithContext(ctx).Table(tbl).
-   Select(&quot;lock_state&quot;).
-   Where(&quot;id=? AND lock_state=?&quot;, id, Locked).Updates(lead).Error
-</code></pre><p>每一个方法都返回<code>*DB</code>类型，没有额外返回<code>error</code>。</p><h3 id=3-仅在最上层调用打日志>3. 仅在最上层调用打日志</h3><pre><code>func main() {
-   err := parseConf(&quot;not_exist.json&quot;)
+   Select(&#34;lock_state&#34;).
+   Where(&#34;id=? AND lock_state=?&#34;, id, Locked).Updates(lead).Error
+</code></pre><p>每一个方法都返回<code>*DB</code>类型，没有额外返回<code>error</code>。</p><h3 id=3-仅在最上层调用打日志>3. 仅在最上层调用打日志</h3><pre tabindex=0><code>func main() {
+   err := parseConf(&#34;not_exist.json&#34;)
    if err != nil {
-      log.Printf(&quot;parse conf: %s&quot;, err)
+      log.Printf(&#34;parse conf: %s&#34;, err)
       return
    }
 }
@@ -308,7 +316,7 @@ db.WithContext(ctx).Table(tbl).
 func parseConf(name string) error {
    content, err := readFile(name)
    if err != nil {
-      log.Printf(&quot;read file: %s&quot;, err)
+      log.Printf(&#34;read file: %s&#34;, err)
       return err
    }
 
@@ -321,7 +329,7 @@ func parseConf(name string) error {
 func readFile(name string) ([]byte, error) {
    f, err := os.Open(name)
    if err != nil {
-      log.Printf(&quot;open file: %s&quot;, err)
+      log.Printf(&#34;open file: %s&#34;, err)
       return nil, err
    }
    defer f.Close()
@@ -337,19 +345,19 @@ func readFile(name string) ([]byte, error) {
 // 2021/05/14 18:43:05 open file: open not_exist.json: no such file or directory
 // 2021/05/14 18:43:05 read file: open not_exist.json: no such file or directory
 // 2021/05/14 18:43:05 parse conf: open not_exist.json: no such file or directory
-</code></pre><pre><code>package main
+</code></pre><pre tabindex=0><code>package main
 
 import (
-   &quot;log&quot;
-   &quot;os&quot;
+   &#34;log&#34;
+   &#34;os&#34;
 
-   &quot;github.com/pkg/errors&quot;
+   &#34;github.com/pkg/errors&#34;
 )
 
 func main() {
-   err := parseConf(&quot;not_exist.json&quot;)
+   err := parseConf(&#34;not_exist.json&#34;)
    if err != nil {
-      log.Printf(&quot;parse conf: %+v&quot;, err)
+      log.Printf(&#34;parse conf: %+v&#34;, err)
       return
    }
 }
@@ -369,7 +377,7 @@ func parseConf(name string) error {
 func readFile(name string) ([]byte, error) {
    f, err := os.Open(name)
    if err != nil {
-      return nil, errors.Wrap(err, &quot;open file&quot;)
+      return nil, errors.Wrap(err, &#34;open file&#34;)
    }
    defer f.Close()
 
@@ -391,7 +399,7 @@ func readFile(name string) ([]byte, error) {
 //         /Users/marvel/sdk/go1.16/src/runtime/proc.go:225
 // runtime.goexit
 //        /Users/marvel/sdk/go1.16/src/runtime/asm_amd64.s:1371
-</code></pre><p>HTTP 服务还可以利用日志中间件实现，在 API 最顶层打印日志。</p><h3 id=4-通过-panic-和-recover-进行错误处理>4. 通过 panic 和 recover 进行错误处理</h3><pre><code>// Error is the type of a parse error; it satisfies the error interface.
+</code></pre><p>HTTP 服务还可以利用日志中间件实现，在 API 最顶层打印日志。</p><h3 id=4-通过-panic-和-recover-进行错误处理>4. 通过 panic 和 recover 进行错误处理</h3><pre tabindex=0><code>// Error is the type of a parse error; it satisfies the error interface.
 type Error string
 func (e Error) Error() string {
     return string(e)
@@ -416,15 +424,15 @@ func Compile(str string) (regexp *Regexp, err error) {
 
     return regexp.doParse(str), nil
 }
-</code></pre><p><code>recover</code> 只能在 <code>defer</code> 函数体内使用。</p><pre><code>if pos == 0 {
-    re.error(&quot;'*' illegal at start of expression&quot;)
+</code></pre><p><code>recover</code> 只能在 <code>defer</code> 函数体内使用。</p><pre tabindex=0><code>if pos == 0 {
+    re.error(&#34;&#39;*&#39; illegal at start of expression&#34;)
 }
-</code></pre><p><strong>局限性</strong>：只能用在同一个包内，将内部产生的 <code>panic</code> 转为 <code>error</code> 返回给调用者；而不能主动抛 <code>panic</code> 给调用者。</p><h3 id=5-并发场景下的错误处理>5. 并发场景下的错误处理</h3><p>可以使用官方工具包 <a href=https://pkg.go.dev/golang.org/x/sync/errgroup>errgroup</a> ，对 <code>sync.WaitGroup</code> 进行了巧妙的封装，简化了同步处理逻辑，同时允许并发执行的子任务将可能出现的错误返回给调用方。</p><pre><code>func main() {
+</code></pre><p><strong>局限性</strong>：只能用在同一个包内，将内部产生的 <code>panic</code> 转为 <code>error</code> 返回给调用者；而不能主动抛 <code>panic</code> 给调用者。</p><h3 id=5-并发场景下的错误处理>5. 并发场景下的错误处理</h3><p>可以使用官方工具包 <a href=https://pkg.go.dev/golang.org/x/sync/errgroup>errgroup</a> ，对 <code>sync.WaitGroup</code> 进行了巧妙的封装，简化了同步处理逻辑，同时允许并发执行的子任务将可能出现的错误返回给调用方。</p><pre tabindex=0><code>func main() {
         g := new(errgroup.Group)
         var urls = []string{
-                &quot;http://www.golang.org/&quot;,
-                &quot;http://www.google.com/&quot;,
-                &quot;http://www.somestupidname.com/&quot;,
+                &#34;http://www.golang.org/&#34;,
+                &#34;http://www.google.com/&#34;,
+                &#34;http://www.somestupidname.com/&#34;,
         }
 
         for _, url := range urls {
@@ -443,26 +451,26 @@ func Compile(str string) (regexp *Regexp, err error) {
 
         // Wait for all HTTP fetches to complete.
         if err := g.Wait(); err == nil {
-                fmt.Println(&quot;Successfully fetched all URLs.&quot;)
+                fmt.Println(&#34;Successfully fetched all URLs.&#34;)
        }
 }
-</code></pre><h3 id=6-一些规范>6. 一些规范</h3><ul><li><p>错误描述<strong>小写</strong>开头，加前缀（如包名），如 <code>image: unknown format</code></p></li><li><p>自定义错误类型以 <code>Error</code> 结尾，变量以 <code>Err</code> 或 <code>err</code> 开头；</p></li><li><p>函数（或方法）最后一个返回值返回 <code>error</code> 类型，不要返回具体的错误类型；</p></li><li><p>自定义 <code>Error</code> 接口，包含其他判别具体错误的方法；</p></li></ul><pre><code>package net
+</code></pre><h3 id=6-一些规范>6. 一些规范</h3><ul><li><p>错误描述<strong>小写</strong>开头，加前缀（如包名），如 <code>image: unknown format</code></p></li><li><p>自定义错误类型以 <code>Error</code> 结尾，变量以 <code>Err</code> 或 <code>err</code> 开头；</p></li><li><p>函数（或方法）最后一个返回值返回 <code>error</code> 类型，不要返回具体的错误类型；</p></li><li><p>自定义 <code>Error</code> 接口，包含其他判别具体错误的方法；</p></li></ul><pre tabindex=0><code>package net
 
 type Error interface {
     error
     Timeout() bool   // Is the error a timeout?
     Temporary() bool // Is the error temporary?
 }
-</code></pre><h3 id=7-特别注意的坑>7. 特别注意的坑</h3><pre><code>type MyError struct {
+</code></pre><h3 id=7-特别注意的坑>7. 特别注意的坑</h3><pre tabindex=0><code>type MyError struct {
   code int
   msg string
 }
 
 func (e *MyError) Error() string {
-  return fmt.Sprintf(&quot;code=%d, msg=%s&quot;, e.code, e.msg) 
+  return fmt.Sprintf(&#34;code=%d, msg=%s&#34;, e.code, e.msg) 
 }
 
-var ErrBad = &amp;MyError{code: 500, msg: &quot;something bad occurs&quot;}
+var ErrBad = &amp;MyError{code: 500, msg: &#34;something bad occurs&#34;}
 
 // Bad
 func Handle() error {
@@ -484,15 +492,15 @@ func Handle() error {
 
   return nil
 }
-</code></pre><h1 id=参考>参考</h1><ol><li><a href=https://golang.org/doc/effective_go#errors>https://golang.org/doc/effective_go#errors</a></li><li><a href=https://blog.golang.org/error-handling-and-go>https://blog.golang.org/error-handling-and-go</a></li><li><a href=https://blog.golang.org/errors-are-values>https://blog.golang.org/errors-are-values</a></li><li><a href=https://github.com/golang/go/wiki/Errors>https://github.com/golang/go/wiki/Errors</a></li><li><a href=https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully>https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully</a></li><li><a href=https://dave.cheney.net/2019/01/27/eliminate-error-handling-by-eliminating-errors>https://dave.cheney.net/2019/01/27/eliminate-error-handling-by-eliminating-errors</a></li><li><a href=https://blog.golang.org/go1.13-errors>https://blog.golang.org/go1.13-errors</a></li><li><a href=https://www.sohu.com/a/342949702_657921>https://www.sohu.com/a/342949702_657921</a></li><li><a href=https://ethancai.github.io/2017/12/29/Error-Handling-in-Go/>Go语言中的错误处理（Error Handling in Go）</a></li><li><a href=https://dave.cheney.net/paste/gocon-spring-2016.pdf>https://dave.cheney.net/paste/gocon-spring-2016.pdf</a></li><li><a href=https://coolshell.cn/articles/21140.html>https://coolshell.cn/articles/21140.html</a></li><li><a href=https://blog.golang.org/defer-panic-and-recover>https://blog.golang.org/defer-panic-and-recover</a></li></ol></div><div class=article-footer><blockquote class=mt-2x><ul class="post-copyright list-unstyled"><li class="post-copyright-link hidden-xs"><strong>本文链接:</strong>
-<a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ title="Golang 错误处理实践" target=_blank rel=external>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</a></li><li class=post-copyright-license><strong>License：</strong><a href=http://creativecommons.org/licenses/by/4.0/deed.zh target=_blank rel=external>CC BY 4.0 CN</a></li></ul></blockquote><div class="panel panel-default panel-badger"><div class=panel-body><figure class=media><div class=media-left><a href=https://github.com/mbyd916 target=_blank class="img-burn thumb-sm visible-lg"><img src=https://blog.marvel6.cn/avatar.png class="img-rounded w-full" alt></a></div><div class=media-body><h3 class=media-heading><a href=https://github.com/mbyd916 target=_blank><span class=text-dark>marvel6</span><small class=ml-1x>泥瓦工</small></a></h3><div>求真务实</div></div></figure></div></div></div></article><section id=comments></section></div><nav class="bar bar-footer clearfix" data-stick-bottom><div class=bar-inner><ul class="pager pull-left"><li class=prev><a href=https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/ title="借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock"><i class="icon icon-angle-left" aria-hidden=true></i><span>&nbsp;&nbsp;下一篇</span></a></li><li class=toggle-toc><a class="toggle-btn collapsed" data-toggle=collapse href=#collapseToc aria-expanded=false title=文章目录 role=button><span>[&nbsp;</span><span>文章目录</span>
-<i class="text-collapsed icon icon-anchor"></i><i class="text-in icon icon-close"></i><span>]</span></a></li></ul><div class=bar-right><div class=share-component data-sites=weibo,qq,wechat,facebook,twitter data-mobile-sites=weibo,qq,qzone></div></div></div></nav></main><footer class=footer itemscope itemtype=http://schema.org/WPFooter><ul class=social-links><li><a href=https://github.com/mbyd916 target=_blank title=github data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li><li><a href=https://blog.marvel6.cn/index.xml target=_blank title=rss data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li></ul><div class=copyright>&copy;2018 -
-2021<div class=publishby>Theme by <a href=https://github.com/xiaoheiAh target=_blank>xiaoheiAh </a>base on<a href=https://github.com/xiaoheiAh/hugo-theme-pure target=_blank> pure</a>.</div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script><script type=text/x-mathjax-config>
+</code></pre><h1 id=参考>参考</h1><ol><li><a href=https://golang.org/doc/effective_go#errors>https://golang.org/doc/effective_go#errors</a></li><li><a href=https://blog.golang.org/error-handling-and-go>https://blog.golang.org/error-handling-and-go</a></li><li><a href=https://blog.golang.org/errors-are-values>https://blog.golang.org/errors-are-values</a></li><li><a href=https://github.com/golang/go/wiki/Errors>https://github.com/golang/go/wiki/Errors</a></li><li><a href=https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully>https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully</a></li><li><a href=https://dave.cheney.net/2019/01/27/eliminate-error-handling-by-eliminating-errors>https://dave.cheney.net/2019/01/27/eliminate-error-handling-by-eliminating-errors</a></li><li><a href=https://blog.golang.org/go1.13-errors>https://blog.golang.org/go1.13-errors</a></li><li><a href=https://www.sohu.com/a/342949702_657921>https://www.sohu.com/a/342949702_657921</a></li><li><a href=https://ethancai.github.io/2017/12/29/Error-Handling-in-Go/>Go语言中的错误处理（Error Handling in Go）</a></li><li><a href=https://dave.cheney.net/paste/gocon-spring-2016.pdf>https://dave.cheney.net/paste/gocon-spring-2016.pdf</a></li><li><a href=https://coolshell.cn/articles/21140.html>https://coolshell.cn/articles/21140.html</a></li><li><a href=https://blog.golang.org/defer-panic-and-recover>https://blog.golang.org/defer-panic-and-recover</a></li></ol></div><div class=article-footer><blockquote class=mt-2x><ul class="post-copyright list-unstyled"><li class="post-copyright-link hidden-xs"><strong>本文链接: </strong><a href=https://blog.marvel6.cn/2021/06/golang-error-handle-practice/ title="Golang 错误处理实践" target=_blank rel=external>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</a></li><li class=post-copyright-license><strong>License：</strong><a href=http://creativecommons.org/licenses/by/4.0/deed.zh target=_blank rel=external>CC BY 4.0 CN</a></li></ul></blockquote><div class="panel panel-default panel-badger"><div class=panel-body><figure class=media><div class=media-left><a href=https://github.com/mbyd916 target=_blank class="img-burn thumb-sm visible-lg"><img src=https://blog.marvel6.cn/avatar.png class="img-rounded w-full" alt></a></div><div class=media-body><h3 class=media-heading><a href=https://github.com/mbyd916 target=_blank><span class=text-dark>marvel6</span><small class=ml-1x>泥瓦工</small></a></h3><div>求真务实</div></div></figure></div></div></div></article><section id=comments></section></div><nav class="bar bar-footer clearfix" data-stick-bottom><div class=bar-inner><ul class="pager pull-left"><li class=prev><a href=https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/ title="借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock"><i class="icon icon-angle-left" aria-hidden=true></i><span>&nbsp;&nbsp;下一篇</span></a></li><li class=toggle-toc><a class="toggle-btn collapsed" data-toggle=collapse href=#collapseToc aria-expanded=false title=文章目录 role=button><span>[&nbsp;</span><span>文章目录</span>
+<i class="text-collapsed icon icon-anchor"></i>
+<i class="text-in icon icon-close"></i>
+<span>]</span></a></li></ul><div class=bar-right><div class=share-component data-sites=weibo,qq,wechat,facebook,twitter data-mobile-sites=weibo,qq,qzone></div></div></div></nav></main><footer class=footer itemscope itemtype=http://schema.org/WPFooter><ul class=social-links><li><a href=https://github.com/mbyd916 target=_blank title=github data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li><li><a href=https://blog.marvel6.cn/index.xml target=_blank title=rss data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li></ul><div class=copyright>&copy;2018 -
+2024<div class=publishby>Theme by <a href=https://github.com/xiaoheiAh target=_blank>xiaoheiAh </a>base on<a href=https://github.com/xiaoheiAh/hugo-theme-pure target=_blank> pure</a>.</div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script><script type=text/x-mathjax-config>
     MathJax.Hub.Config({
             showMathMenu: false, //disables context menu
             tex2jax: {
             inlineMath: [ ['$','$'], ['\\(','\\)'] ]
            }
     });
-</script><script src=https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js></script><script>window.jQuery||document.write('<script src="js/jquery.min.js"><\/script>')</script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js></script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js></script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js></script><script>hljs.configure({tabReplace:'    ',classPrefix:''})
-hljs.initHighlightingOnLoad();</script><script type=text/javascript src=https://blog.marvel6.cn/js/application.js></script><script type=text/javascript src=https://blog.marvel6.cn/js/plugin.js></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:'文章',PAGES:'页面',CATEGORIES:'分类',TAGS:'标签',UNTITLED:'(未命名)',},ROOT_URL:'https:\/\/blog.marvel6.cn\/',CONTENT_URL:'https:\/\/blog.marvel6.cn\/\/searchindex.json ',};window.INSIGHT_CONFIG=INSIGHT_CONFIG;})(window);</script><script type=text/javascript src=https://blog.marvel6.cn/js/insight.js></script><script src=https://cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js></script><script src=https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js></script><script type=text/javascript>var gitalk=new Gitalk({clientID:'85164e618c7cc6dc000d',clientSecret:'9c30affd9ff9e3744807f89cb5ace1363d6c2757',repo:'blog-hg',owner:'mbyd916',admin:['mbyd916'],id:md5(location.pathname),distractionFreeMode:true});gitalk.render('comments');</script><script>var _mtac={};(function(){var mta=document.createElement("script");mta.src="//pingjs.qq.com/h5/stats.js?v2.0.4";mta.setAttribute("name","MTAH5");mta.setAttribute("sid","500706048");var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(mta,s);})();</script></body></html>
+</script><script src=https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js></script><script>window.jQuery||document.write('<script src="js/jquery.min.js"><\/script>')</script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js></script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js></script><script type=text/javascript src=https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js></script><script>hljs.configure({tabReplace:"    ",classPrefix:""}),hljs.initHighlightingOnLoad()</script><script type=text/javascript src=https://blog.marvel6.cn/js/application.js></script><script type=text/javascript src=https://blog.marvel6.cn/js/plugin.js></script><script>(function(e){var t={TRANSLATION:{POSTS:"文章",PAGES:"页面",CATEGORIES:"分类",TAGS:"标签",UNTITLED:"(未命名)"},ROOT_URL:"https://blog.marvel6.cn/",CONTENT_URL:"https://blog.marvel6.cn//searchindex.json "};e.INSIGHT_CONFIG=t})(window)</script><script type=text/javascript src=https://blog.marvel6.cn/js/insight.js></script><script src=https://cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js></script><script src=https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js></script><script type=text/javascript>var gitalk=new Gitalk({clientID:"85164e618c7cc6dc000d",clientSecret:"9c30affd9ff9e3744807f89cb5ace1363d6c2757",repo:"blog-hg",owner:"mbyd916",admin:["mbyd916"],id:md5(location.pathname),distractionFreeMode:!0});gitalk.render("comments")</script><script>var _mtac={};(function(){var t,e=document.createElement("script");e.src="//pingjs.qq.com/h5/stats.js?v2.0.4",e.setAttribute("name","MTAH5"),e.setAttribute("sid","500706048"),t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script></body></html>
