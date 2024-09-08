@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Leetcode 题解 on 漫步云端</title><link>https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/</link><description>Recent content in Leetcode 题解 on 漫步云端</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Sun, 08 Dec 2019 19:34:46 +0800</lastBuildDate><atom:link href="https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml"/><item><title>Golang 错误处理实践</title><link>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</link><pubDate>Sat, 05 Jun 2021 21:19:16 +0800</pubDate><guid>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</guid><description>&lt;p>任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。&lt;/p></description></item><item><title>借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock</title><link>https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/</link><pubDate>Thu, 23 Jan 2020 15:28:33 +0800</pubDate><guid>https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/</guid><description>&lt;p>一直以来，团队同学（也包括我自己）对单元测试不够重视，代码覆盖率几乎等于 0， 最直接的后果是代码 bug 率较高，重构困难。从 PHP 转为 Golang 开发已有一年多，进行过多次微服务架构优化，每次进行代码重构，鲜有单元测试，大多进行接口级别的集成测试。不够全面，测试用例也没和代码放在一起维护，后续逻辑调整，原测试用例几乎废掉。为了改变现状，认真调研了 Golang 生态的单元测试和 Mock 工具，因为业务逻辑大多离不开数据库的 CRUD 操作，所以本文先从简单的 Sql Mock 谈起。&lt;/p></description></item><item><title>详解 hystrix-go Command 配置参数</title><link>https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/</link><pubDate>Mon, 30 Dec 2019 21:16:54 +0800</pubDate><guid>https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/</guid><description>&lt;p>hystrix 是 Netflix 开源的一个非常强大的熔断降级组件， 用 Java 实现， 而 hystrix-go 是其 Go 版本的一个实现。本文主要介绍 Command 配置涉及的 5 个参数。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Leetcode 题解 on 漫步云端</title><link>https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/</link><description>Recent content in Leetcode 题解 on 漫步云端</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Sun, 08 Dec 2019 19:34:46 +0800</lastBuildDate><atom:link href="https://blog.marvel6.cn/categories/leetcode-%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml"/><item><title>给博客支持相册功能并测试</title><link>https://blog.marvel6.cn/2024/09/test_gallery_support/</link><pubDate>Sun, 08 Sep 2024 09:08:35 +0800</pubDate><guid>https://blog.marvel6.cn/2024/09/test_gallery_support/</guid><description>&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;head>
+&lt;meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+&lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">&lt;/script>
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nanogallery2@3.0.5/dist/css/nanogallery2.min.css">
+&lt;script src="https://cdn.jsdelivr.net/npm/nanogallery2@3.0.5/dist/jquery.nanogallery2.min.js">&lt;/script>
+&lt;/head>
+&lt;body>
+&lt;div data-nanogallery2='{
+"thumbnailDisplayTransition": "none",
+"thumbnailDisplayTransitionDuration": 500,
+"thumbnailDisplayInterval": 30,
+"galleryDisplayTransition": "none",
+"galleryDisplayTransitionDuration": 500,
+"galleryDisplayMode": "rows",
+"thumbnailDisplayOutsideScreen": "false",
+"eventsDebounceDelay": 10,
+"thumbnailL1BorderHorizontal": 0,
+"thumbnailL1BorderVertical": 0,
+"thumbnailLabel": {
+"titleFontSize": "0.6em"
+},
+"thumbnailHoverEffect2": "image_scale_1.00_1.10|label_backgroundColor_rgba(0,0,0,0)_rgba(255,255,255,0)",
+"galleryTheme": {
+"thumbnail": {
+"borderRadius": "8px"
+}
+},
+"thumbnailToolbarImage": {
+"topLeft": "",
+"topRight": "",
+"bottomLeft": "",
+"bottomRight": ""
+},
+"viewerToolbar": {
+"display": true,
+"standard": "label"
+},
+"viewerTools": {
+"topLeft": "pageCounter, playPauseButton",
+"topRight": "downloadButton, rotateLeft, zoomButton, fullscreenButton, closeButton"
+},
+"viewerGalleryTWidth": 40,
+"viewerGalleryTHeight": 40
+}'>
+&lt;a href="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png" data-ngThumb="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png">香克斯&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png" data-ngThumb="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png">&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png" data-ngThumb="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png">&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png" data-ngThumb="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png">香克斯&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png" data-ngThumb="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png">&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png" data-ngThumb="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png">&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png" data-ngThumb="https://www.sulvblog.cn/image/16_IMG_20220430_202353.png">香克斯&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png" data-ngThumb="https://www.sulvblog.cn/image/17_IMG_20220430_202228.png">&lt;/a>
+&lt;a href="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png" data-ngThumb="https://www.sulvblog.cn/image/19_IMG_20220430_200901.png">&lt;/a>
+&lt;/div>
+&lt;/body>
+&lt;/html></description></item><item><title>Golang 错误处理实践</title><link>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</link><pubDate>Sat, 05 Jun 2021 21:19:16 +0800</pubDate><guid>https://blog.marvel6.cn/2021/06/golang-error-handle-practice/</guid><description>&lt;p>任何语言，错误处理都是至关重要的，开发人员只有学会正确地处理错误，才可能写出健壮的程序。本文主要介绍使用 Golang 这门语言在错误处理方面的一些实践，首先来看一下我们可能遇到的一些问题。&lt;/p></description></item><item><title>借助 Goconvey 和 Sqlmock 对基于 Xorm 的 DB 操作进行单元测试和 Mock</title><link>https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/</link><pubDate>Thu, 23 Jan 2020 15:28:33 +0800</pubDate><guid>https://blog.marvel6.cn/2020/01/test-and-mock-db-by-xorm-with-the-help-of-convey-and-sqlmock/</guid><description>&lt;p>一直以来，团队同学（也包括我自己）对单元测试不够重视，代码覆盖率几乎等于 0， 最直接的后果是代码 bug 率较高，重构困难。从 PHP 转为 Golang 开发已有一年多，进行过多次微服务架构优化，每次进行代码重构，鲜有单元测试，大多进行接口级别的集成测试。不够全面，测试用例也没和代码放在一起维护，后续逻辑调整，原测试用例几乎废掉。为了改变现状，认真调研了 Golang 生态的单元测试和 Mock 工具，因为业务逻辑大多离不开数据库的 CRUD 操作，所以本文先从简单的 Sql Mock 谈起。&lt;/p></description></item><item><title>详解 hystrix-go Command 配置参数</title><link>https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/</link><pubDate>Mon, 30 Dec 2019 21:16:54 +0800</pubDate><guid>https://blog.marvel6.cn/2019/12/hystrixgo-command-config-introduction/</guid><description>&lt;p>hystrix 是 Netflix 开源的一个非常强大的熔断降级组件， 用 Java 实现， 而 hystrix-go 是其 Go 版本的一个实现。本文主要介绍 Command 配置涉及的 5 个参数。&lt;/p>
 &lt;p>&lt;code>CommandConfig&lt;/code> 结构体如下：&lt;/p></description></item><item><title>Leetcode 题解：完全平方数</title><link>https://blog.marvel6.cn/2019/12/leetcode-perfect-squares/</link><pubDate>Sun, 08 Dec 2019 19:34:46 +0800</pubDate><guid>https://blog.marvel6.cn/2019/12/leetcode-perfect-squares/</guid><description>&lt;h3 id="问题">问题&lt;/h3>
 &lt;p>给定正整数 n，找到若干个完全平方数（比如 1, 4, 9, 16, &amp;hellip;）使得它们的和等于 n。你需要让组成和的完全平方数的个数最少。&lt;/p></description></item><item><title>在 GitHub Pages 托管用 Hugo 创建的静态博客</title><link>https://blog.marvel6.cn/2019/12/hosting-hugo-blog-on-github-pages/</link><pubDate>Sun, 01 Dec 2019 11:51:45 +0800</pubDate><guid>https://blog.marvel6.cn/2019/12/hosting-hugo-blog-on-github-pages/</guid><description>&lt;h3 id="背景">背景&lt;/h3>
 &lt;p>我用Hugo生成的静态博客部署在腾讯云CVM上，只有一个实例，存在单点风险，也不能实现负载均衡。所以想托管在GitHub Pages，本文简单记录实现过程。&lt;/p></description></item><item><title>批量删除自己的Github仓库</title><link>https://blog.marvel6.cn/2019/11/delete-my-github-repos-in-bulk/</link><pubDate>Mon, 25 Nov 2019 18:22:18 +0800</pubDate><guid>https://blog.marvel6.cn/2019/11/delete-my-github-repos-in-bulk/</guid><description>&lt;h3 id="背景">背景&lt;/h3>
