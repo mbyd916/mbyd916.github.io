@@ -1,7 +1,7 @@
 ---
 title: "给博客支持相册功能并测试"
 date: 2024-09-08T09:08:35+08:00
-draft: true
+draft: false
 categories:
 - 相册
 tags:
